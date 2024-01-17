@@ -13,24 +13,26 @@
 </head>
 
 <body>
-  <main class="container">
+  <div class="container">
+
     <header>
       <span> <img src="./assets/images/icon-star.svg" alt="star"> </span>
       <h1>FAQs</h1>
     </header>
-    <ul>
-      <li class="active">
-        <a href="" class="heading">
-          <div class="text">What is Frontend Mentor, and how will it help me? </div>
-          <div class="icon"></div>
-        </a>
-        <div class="content">
-          Frontend Mentor offers realistic coding challenges to help developers improve their
-          frontend coding skills with projects in HTML, CSS, and JavaScript. It's suitable for
-          all levels and ideal for portfolio building.</div>
-      </li>
 
-      <li>
+    <main>
+      <div class="accordion">
+        <a href="" class="heading">
+          <div class="text"> What is Frontend Mentor, and how will it help me? </div>
+          <div class="icon opened"></div>
+        </a>
+        <div class="content active" style="max-height: 120px;">
+          Frontend Mentor offers realistic coding challenges to help developers improve their frontend coding skills
+          with projects in HTML, CSS, and JavaScript. It’s suitable for all levels and ideal for portfolio building.
+        </div>
+      </div>
+
+      <div class="accordion">
         <a href="" class="heading">
           <div class="text"> Is Frontend Mentor free? </div>
           <div class="icon"></div>
@@ -38,9 +40,9 @@
         <div class="content">
           Yes, Frontend Mentor offers both free and premium coding challenges, with the free
           option providing access to a range of projects suitable for all skill levels.</div>
-      </li>
+      </div>
 
-      <li>
+      <div class="accordion">
         <a href="" class="heading">
           <div class="text">Can I use Frontend Mentor projects in my portfolio? </div>
           <div class="icon"></div>
@@ -48,9 +50,9 @@
         <div class="content">
           Yes, you can use projects completed on Frontend Mentor in your portfolio. It's an excellent
           way to showcase your skills to potential employers!</div>
-      </li>
+      </div>
 
-      <li>
+      <div class="accordion">
         <a href="" class="heading">
           <div class="text">How can I get help if I'm stuck on a challenge? </div>
           <div class="icon"></div>
@@ -58,65 +60,53 @@
         <div class="content">
           The best place to get help is inside Frontend Mentor's Discord community. There's a help
           channel where you can ask questions and seek support from other community members.</div>
-      </li>
+      </div>
+    </main>
 
-    </ul>
-  </main>
-  <script>
+    <script>
 
-    let allHeading = document.getElementsByClassName("heading");
-    Array.from(allHeading).forEach(function (heading) {
-      heading.addEventListener('click', function (e) {
-        e.preventDefault();
+      //open accordion
+      const openAccordion = (accordion) => {
+        const content = accordion.querySelector(".content");
+        content.style.maxHeight = content.scrollHeight + "px";
+        content.classList.add("active");
 
-        let list = heading.parentElement;
-        if (list.classList.contains('active')) {
-          list.classList.remove('active');
-          let content = heading.nextElementSibling;
-          content.classList.remove("open");
-          content.style.maxHeight = null;
+        //change icon
+        let icon = accordion.querySelector(".icon");
+        icon.classList.add("opened");
+      }
 
-          let iconsContainer = heading.querySelector('.icon');
-          iconsContainer.classList.remove("opened");
+      //close accordion
+      const closeAccordion = (accordion) => {
+        const content = accordion.querySelector(".content");
+        content.style.maxHeight = null;
+        content.classList.remove("active");
 
-        } else {
-          let active = document.getElementsByClassName("active");
-          Array.from(active).forEach(function (activeElement) {
-            activeElement.classList.remove("active");
-            activeElement.style.maxHeight = null;
-            let content = activeElement.querySelector('.content');
-            content.classList.remove("open");
-            content.style.maxHeight = null;
-            let icon = activeElement.querySelector('.heading').querySelector('.icon');
-            icon.classList.remove("opened");
-          });
+        //change icon
+        let icon = accordion.querySelector(".icon");
+        icon.classList.remove("opened");
+      };
 
-          list.classList.add('active');
-          let content = heading.nextElementSibling;
-          content.classList.add("open");
-          content.style.maxHeight = content.scrollHeight + "px";
+      //select all accordions
+      const accordions = document.querySelectorAll(".accordion");
 
-          let iconsContainer = heading.querySelector('.icon');
-          iconsContainer.classList.add("opened");
+      accordions.forEach((accordion) => {
 
-        }
+        const intro = accordion.querySelector(".heading");
+        const content = accordion.querySelector(".content");
+
+        intro.onclick = (e) => {
+          e.preventDefault();
+          if (content.style.maxHeight) {
+            closeAccordion(accordion);
+          } else {
+            accordions.forEach((accordion) => closeAccordion(accordion));
+            openAccordion(accordion);
+          }
+        };
       });
-    });
-
-    let active = document.getElementsByClassName("active");
-    Array.from(active).forEach(function (activeElement) {
-      var fourChildNode = activeElement.querySelector('.content');
-
-       
-      fourChildNode.style.maxHeight = fourChildNode.scrollHeight + "px";
-      fourChildNode.classList.add("open")
-
-      var fourChildNode = activeElement.querySelector('.heading').querySelector('.icon');
-      fourChildNode.classList.add("opened")
-
-    });
-
-  </script>
+    </script>
+  </div>
 </body>
 
 </html>
